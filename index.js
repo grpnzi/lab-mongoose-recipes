@@ -29,7 +29,10 @@ mongoose
       duration: 30,
       creator: "John Doe",
       created: new Date("2023-08-04"),
-    });
+    })
+    .then((element) =>{
+      console.log(element.title);
+    })
   })
   // Iteration 3 - Insert multiple recipes
   .then(async () => {
