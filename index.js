@@ -17,6 +17,21 @@ mongoose
     return Recipe.deleteMany()
     
   })
+  // Iteration 2 - Create a recipe
+  .then(async()=> {
+    await Recipe.create({
+      title: "Delicious Pancakes",
+      level: "Easy Peasy",
+      ingredients: ["flour", "milk", "eggs", "sugar", "baking powder"],
+      cuisine: "American",
+      dishType: "breakfast",
+      image: "https://images.media-allrecipes.com/images/12345.jpg",
+      duration: 30,
+      creator: "John Doe",
+      created: new Date("2023-08-04"),
+    });
+  })
+  // Iteration 3 - Insert multiple recipes
   .then(async () => {
     // Run your code here, after you have insured that the connection was made
     await Recipe.insertMany(data)
@@ -28,6 +43,7 @@ mongoose
     .catch((err)=> console.log(err))
     
   })
+  // Iteration 4 - Update recipe
   .then(async ()=> {
     const query = {title: 'Rigatoni alla Genovese'}
     const update = {duration: 100 };
@@ -36,11 +52,13 @@ mongoose
       .then((response)=> console.log("It's succes"))
       .catch((err)=> console.log(err))
   })
+  // Iteration 5 - Remove a recipe
   .then(async ()=>{
     await Recipe.deleteOne( {title: 'Carrot Cake'})
       .then(()=> console.log('Succes deleteing Carrot Cake'))
       .catch((err)=> console.log(err))
   })
+  // Iteration 6 - Close the Database
   .then(async ()=> await mongoose.connection.close())
   .catch(error => {
     console.error('Error connecting to the database', error);
