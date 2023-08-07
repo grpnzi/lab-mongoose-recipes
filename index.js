@@ -56,9 +56,9 @@ mongoose
     return Recipe.deleteOne( {title: 'Carrot Cake'});
   })
   .then(()=> console.log('Succes deleting Carrot Cake'))
-  // Iteration 6 - Close the Database
-  .then(()=>  mongoose.connection.close())
   .catch(error => {
     console.error('Error connecting to the database', error);
-  });
+  })
+  // Iteration 6 - Close the Database
+  .finally(()=>  mongoose.connection.close());
 
