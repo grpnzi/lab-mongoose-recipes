@@ -6,7 +6,7 @@ const Recipe = require('./models/Recipe.model');
 const data = require('./data');
 mongoose.set('strictQuery', true);
 
-const MONGODB_URI = 'mongodb+srv://admin:12345aA.@cluster0.2ftqroh.mongodb.net/MyFirstDatabase';
+const MONGODB_URI = 'mongodb+srv://admin:@cluster0.2ftqroh.mongodb.net/MyFirstDatabase';
 
 // Connection to the database "recipe-app"
 mongoose
@@ -18,8 +18,8 @@ mongoose
     
   })
   // Iteration 2 - Create a recipe
-  .then(async()=> {
-    await Recipe.create({
+  .then(()=> {
+    return Recipe.create({
       title: "Delicious Pancakes",
       level: "Easy Peasy",
       ingredients: ["flour", "milk", "eggs", "sugar", "baking powder"],
@@ -29,36 +29,34 @@ mongoose
       duration: 30,
       creator: "John Doe"
     })
-    .then((element) => console.log(element.title))
   })
+  .then((element) => console.log(element.title))
   // Iteration 3 - Insert multiple recipes
-  .then(async () => {
+  .then(() => {
     // Run your code here, after you have insured that the connection was made
-    await Recipe.insertMany(data)
-    .then((response)=> 
-    {
-      console.log(response);
+    return Recipe.insertMany(data)
+  })
+  .then((response)=> 
+  {
+    response.forEach((element)=>{
+      console.log(element.title);
     })
-    .catch((err)=> console.log(err))
   })
   // Iteration 4 - Update recipe
-  .then(async ()=> {
+  .then(()=> {
     const query = {title: 'Rigatoni alla Genovese'}
     const update = {duration: 100 };
-    const options = {new: true};
 
-    await Recipe.findOneAndUpdate(query, update, options)
-      .then(()=> console.log("It's succes"))
-      .catch((err)=> console.log(err))
+    return Recipe.findOneAndUpdate(query, update);
   })
+  .then(()=> console.log("It's succes"))
   // Iteration 5 - Remove a recipe
-  .then(async ()=>{
-    await Recipe.deleteOne( {title: 'Carrot Cake'})
-      .then(()=> console.log('Succes deleteing Carrot Cake'))
-      .catch((err)=> console.log(err))
+  .then(()=>{
+    return Recipe.deleteOne( {title: 'Carrot Cake'});
   })
+  .then(()=> console.log('Succes deleting Carrot Cake'))
   // Iteration 6 - Close the Database
-  .then(async ()=> await mongoose.connection.close())
+  .then(()=>  mongoose.connection.close())
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
