@@ -6,7 +6,7 @@ const Recipe = require('./models/Recipe.model');
 const data = require('./data');
 mongoose.set('strictQuery', true);
 
-const MONGODB_URI = 'mongodb+srv://admin:@cluster0.2ftqroh.mongodb.net/MyFirstDatabase';
+const MONGODB_URI = 'mongodb+srv://admin:12345aA.@cluster0.2ftqroh.mongodb.net/MyFirstDatabase';
 
 // Connection to the database "recipe-app"
 mongoose
@@ -27,32 +27,28 @@ mongoose
       dishType: "breakfast",
       image: "https://images.media-allrecipes.com/images/12345.jpg",
       duration: 30,
-      creator: "John Doe",
-      created: new Date("2023-08-04"),
+      creator: "John Doe"
     })
-    .then((element) =>{
-      console.log(element.title);
-    })
+    .then((element) => console.log(element.title))
   })
   // Iteration 3 - Insert multiple recipes
   .then(async () => {
     // Run your code here, after you have insured that the connection was made
     await Recipe.insertMany(data)
-    .then((response)=> {
-      response.forEach((element)=>{
-        console.log(element.title);
-      })
+    .then((response)=> 
+    {
+      console.log(response);
     })
     .catch((err)=> console.log(err))
-    
   })
   // Iteration 4 - Update recipe
   .then(async ()=> {
     const query = {title: 'Rigatoni alla Genovese'}
     const update = {duration: 100 };
     const options = {new: true};
+
     await Recipe.findOneAndUpdate(query, update, options)
-      .then((response)=> console.log("It's succes"))
+      .then(()=> console.log("It's succes"))
       .catch((err)=> console.log(err))
   })
   // Iteration 5 - Remove a recipe
