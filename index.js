@@ -46,8 +46,9 @@ mongoose
   .then(()=> {
     const query = {title: 'Rigatoni alla Genovese'}
     const update = {duration: 100 };
+    const option = {new: true}
 
-    return Recipe.findOneAndUpdate(query, update);
+    return Recipe.findOneAndUpdate(query, update, option);
   })
   .then(()=> console.log("It's succes"))
   // Iteration 5 - Remove a recipe
